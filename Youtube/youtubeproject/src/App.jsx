@@ -6,11 +6,13 @@ import RegisterPage from "./pages/RegisterPage"
 import VideoPage from "./pages/VideoPage"
 import ProfilePage from "./pages/ProfilePage"
 import PlaylistPage from "./pages/PlaylistPage"
+import Navbar from "./components/Navbar"
 
 function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-right" />
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />

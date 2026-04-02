@@ -16,6 +16,9 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
         {
             $match:{
+
+                isPublished: true,
+                
                 ...(query && {
                     title:{
 
@@ -111,14 +114,42 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400,"Invalid Video Id")
     }
 
-    const video=await Video.findById(videoId)
+        const video = await Video.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(videoId)
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            fullName: 1,
+                            username: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: { $first: "$owner" }
+            }
+        }
+    ])
 
-    if(!video){
+    if(!video?.length){
         throw new ApiError(404,"Video is not found")
     }
 
     res.status(200).json(
-    new ApiResponse(200, video, "Video fetched successfully")
+    new ApiResponse(200, video[0], "Video fetched successfully")
 )
 })
 
