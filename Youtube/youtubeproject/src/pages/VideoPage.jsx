@@ -4,6 +4,7 @@ import { useGetVideoByIdQuery, useToggleVideoLikeMutation, useToggleSubscription
 import { AiOutlineLike } from "react-icons/ai"
 import { FaBell } from "react-icons/fa"
 import toast from "react-hot-toast"
+import CommentSection from "../components/CommentSection"
 
 const VideoPage = () => {
     const { videoId } = useParams()
@@ -89,7 +90,7 @@ const VideoPage = () => {
                         {/* Name */}
                         <div>
                             <p className="text-white font-semibold">
-                                {video?.owner?.fullName}
+                                {video?.owner?.fullname}
                             </p>
                             <p className="text-gray-400 text-sm">
                                 @{video?.owner?.username}
@@ -127,6 +128,9 @@ const VideoPage = () => {
                         {video?.description}
                     </p>
                 </div>
+
+                {/* Comments */}
+                <CommentSection videoId={videoId} />
 
             </div>
         </div>

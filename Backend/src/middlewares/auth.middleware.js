@@ -15,7 +15,7 @@ export const verifyJwt=asyncHandler(async(req,res,next)=>{
   
      const decodedtoken= jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)
   
-     const user=await User.findById(decodedtoken?._id).select("=password =refereshtoken")
+     const user=await User.findById(decodedtoken?._id).select("-password -refereshtoken")
   
      if(!user){
       throw new ApiError(401,"invalid token")

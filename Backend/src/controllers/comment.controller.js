@@ -5,24 +5,52 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 
 const getVideoComments = asyncHandler(async (req, res) => {
-    
     const {videoId} = req.params
     const {page = 1, limit = 10} = req.query
 
     if(!isValidObjectId(videoId)){
-        throw new ApiError(400,"Invalid Video Id")
+        throw new ApiError(400, "Invalid Video Id")
     }
 
-    const videocomment=await Comment.aggregate([
-    { $match: { video:new mongoose.Types.ObjectId(videoId) } },  
-    { $skip: (page-1) * limit },    
-    { $limit: parseInt(limit) }      
-])
+    const videocomment = await Comment.aggregate([
+        {
+            $match: { 
+                video: new mongoose.Types.ObjectId(videoId) 
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            fullname: 1,
+                            username: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: { $first: "$owner" }
+            }
+        },
+        { $skip: (page - 1) * limit },
+        { $limit: parseInt(limit) }
+    ])
 
-if(!videocomment || videocomment.length===0){
-    throw new ApiError(404,"No Comments Found")
-}
-res.status(200).json(new ApiResponse(200,videocomment,"Video Comment fetched Suuccessfully"))
+    if(!videocomment || videocomment.length === 0){
+        throw new ApiError(404, "No Comments Found")
+    }
+
+    res.status(200).json(
+        new ApiResponse(200, videocomment, "Video Comment fetched Successfully")
+    )
 })
 
 const addComment = asyncHandler(async (req, res) => {
