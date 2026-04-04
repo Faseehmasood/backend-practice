@@ -39,6 +39,45 @@ getCurrentUser: builder.query({
     providesTags: ["User"]
 }),
 
+// Update User Details
+updateUserDetails: builder.mutation({
+    query: (data) => ({
+        url: "/users/update-user-details",
+        method: "PATCH",
+        body: data
+    }),
+    invalidatesTags: ["User"]
+}),
+
+// Change Password
+changePassword: builder.mutation({
+    query: (data) => ({
+        url: "/users/change-password",
+        method: "POST",
+        body: data
+    })
+}),
+
+// Update Avatar
+updateAvatar: builder.mutation({
+    query: (formData) => ({
+        url: "/users/avatar",
+        method: "PATCH",
+        body: formData
+    }),
+    invalidatesTags: ["User"]
+}),
+
+// Update Cover Image
+updateCoverImage: builder.mutation({
+    query: (formData) => ({
+        url: "/users/coverImage",
+        method: "PATCH",
+        body: formData
+    }),
+    invalidatesTags: ["User"]
+}),
+
     })
 })
 
@@ -47,4 +86,8 @@ export const {
     useGetChannelStatsQuery,
     useGetChannelVideosQuery,
     useGetCurrentUserQuery,
+    useUpdateUserDetailsMutation,
+    useChangePasswordMutation,
+    useUpdateAvatarMutation,
+    useUpdateCoverImageMutation,
 } = userApiSlice

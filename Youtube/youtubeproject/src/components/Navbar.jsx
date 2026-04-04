@@ -93,6 +93,14 @@ const Navbar = () => {
                             )}
                         </Link>
 
+                      {/* Profile ke baad */}
+                        <Link
+                            to="/settings"
+                            className="text-gray-400 hover:text-white transition-colors text-sm"
+                        >
+                            Settings
+                        </Link>
+
                         {/* Logout */}
                         <button
                             onClick={handleLogout}
