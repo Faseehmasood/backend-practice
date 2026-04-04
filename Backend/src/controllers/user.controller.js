@@ -280,13 +280,13 @@ const user=await User.findByIdAndUpdate(req.user?._id,
 })
 
 const coverImageLocalPath= asyncHandler(async(req,res)=>{
-    req.file?.path
+    const localpath=req.file?.path
 
-if(!coverImageLocalPath){
+if(!localpath){
     throw new ApiError(400,"CoverImage Missing")
 }
 
-const coverImage= await uploadonCloudinary(coverImageLocalPath)
+const coverImage= await uploadonCloudinary(localpath)
 
 if(!coverImage.url){
      throw new ApiError(400,"Error while uplaoding on CoverImage")
@@ -300,7 +300,7 @@ const user=await User.findByIdAndUpdate(req.user?._id,
 
         },
         {new:true}
-    ).select("=password")
+    ).select("-password")
 
     return res.status(200).json(new ApiResponse(200,user,"CoverImage Updated Succesfully"))
 })

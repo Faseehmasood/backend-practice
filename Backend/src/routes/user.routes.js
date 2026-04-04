@@ -29,7 +29,7 @@ router.route("/login").post(loginuser)
 router.route("/logout").post(verifyJwt, logoutuser)
 router.route("/refreshtoken").post(refreshaccessToken)
 router.route("/change-password").post(verifyJwt, chanagePassword)
-router.route("/current-user").get(verifyJwt, getCurrentUser)
+router.route("/current-user").get(getCurrentUser) //verifyjwt is not required here
 router.route("/update-user-details").patch(verifyJwt, updateUserDetails)
 router.route("/avatar").patch(verifyJwt, upload.single("avatar"), avatarLocalPath)
 router.route("/coverImage").patch(verifyJwt, upload.single("coverImage"), coverImageLocalPath)

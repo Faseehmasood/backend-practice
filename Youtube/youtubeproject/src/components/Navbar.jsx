@@ -36,7 +36,7 @@ const Navbar = () => {
             
             {/* Logo */}
             <Link to="/" className="text-red-500 text-2xl font-bold">
-                ▶ YouTube
+                ▶ KidsTube
             </Link>
 
             {/* Search Bar */}
