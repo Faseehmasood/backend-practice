@@ -30,6 +30,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
             providesTags: ["Video"]
         }),
 
+        // Current User
+getCurrentUser: builder.query({
+    query: () => ({
+        url: "/users/current-user",
+        method: "GET"
+    }),
+    providesTags: ["User"]
+}),
+
     })
 })
 
@@ -37,4 +46,5 @@ export const {
     useGetChannelProfileQuery,
     useGetChannelStatsQuery,
     useGetChannelVideosQuery,
+    useGetCurrentUserQuery,
 } = userApiSlice

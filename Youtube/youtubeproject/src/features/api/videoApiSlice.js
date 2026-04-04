@@ -39,6 +39,25 @@ export const videoApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ["Subscription"]
         }),
 
+        // Upload Video
+uploadVideo: builder.mutation({
+    query: (formData) => ({
+        url: "/videos/upload",
+        method: "POST",
+        body: formData
+    }),
+    invalidatesTags: ["Video"]
+}),
+
+// Get Subscribers - check karo subscribed hai ya nahi
+getSubscriberStatus: builder.query({
+    query: (channelId) => ({
+        url: `/subscriptions/${channelId}`,
+        method: "GET"
+    }),
+    providesTags: ["Subscription"]
+}),
+
     })
 })
 
@@ -47,4 +66,6 @@ export const {
     useGetVideoByIdQuery,
     useToggleVideoLikeMutation,
     useToggleSubscriptionMutation,
+    useUploadVideoMutation,
+    useGetSubscriberStatusQuery
 } = videoApiSlice
